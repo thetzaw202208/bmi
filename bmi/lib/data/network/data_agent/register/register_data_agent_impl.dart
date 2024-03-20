@@ -26,7 +26,7 @@ class RegisterDataAgentImpl extends RegisterDataAgent {
 
   @override
   Future<RegisterVo> doRegister(String name, String phoneNumber, String password, String address, int sellerID) {
-    return _api.registerUser(name, phoneNumber, password, address, sellerID);
+    return _api.doRegister(name, phoneNumber, password, address, sellerID);
   }
 
 

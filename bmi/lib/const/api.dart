@@ -6,7 +6,7 @@ String baseURL = dotenv.get("baseURL", fallback: null);
 ///Endpoint
 const String registerEndpoint = "sellers/register";
 const String loginEndpoint = "sellers/login";
-const String getProductEndpoint = "products/buyers/allProducts";
+const String getSellerTypeEndpoint = "sellers/type";
 const String orderEndpoint = "products/buyers/productOrder";
 const String getOrderHistoryEndpoint = "products/buyers/order/history";
 

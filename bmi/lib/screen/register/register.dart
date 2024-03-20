@@ -11,8 +11,8 @@ import '../../reusable_widgets/reusable_text.dart';
 import '../../reusable_widgets/reusable_textField.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
-
+  const RegisterScreen({super.key, required this.sellerID});
+final int sellerID;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RegisterProvider>(
@@ -84,7 +84,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 ReusableButton(
                   onTap: ()async{
-
+value.doRegister(value.nameController.text, value.nameController.text, value.nameController.text, value.nameController.text,sellerID, context);
                     if(context.mounted) {
 
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));

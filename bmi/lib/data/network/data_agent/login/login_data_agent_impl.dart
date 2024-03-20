@@ -27,7 +27,7 @@ class LoginDataAgentImpl extends LoginDataAgent {
 
   @override
   Future<LoginResponseVo> doLogin(String phoneNumber, String password) {
-   return _api.login(phoneNumber, password);
+   return _api.doLogin(phoneNumber, password);
   }
 
 
