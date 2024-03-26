@@ -98,7 +98,7 @@ class _ApiService implements ApiService {
     const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<SellerTypeVo>(Options(
-      method: 'POST',
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
@@ -114,6 +114,140 @@ class _ApiService implements ApiService {
               baseUrl,
             ))));
     final value = SellerTypeVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetProductResponseVo> getSellerProductType(int productCatID) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'product_category_id': productCatID};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetProductResponseVo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/product/type',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = GetProductResponseVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetProductCatResponseVo> getProductCat() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetProductCatResponseVo>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/product/categories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = GetProductCatResponseVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProductSellOrderResponseVo> sellProductOrder(
+    int productCatID,
+    String sellerProductTypeID,
+    String productName,
+    String orderDate,
+    int ricePercentOne,
+    int ricePercentTwo,
+    String weight,
+    int measurementId,
+    int totalAmount,
+    int price,
+    String address,
+    String photo,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'product_category_id': productCatID,
+      'seller_product_type_id': sellerProductTypeID,
+      'product_type_name': productName,
+      'order_date': orderDate,
+      'rice_percentage_one': ricePercentOne,
+      'rice_percentage_two': ricePercentTwo,
+      'weight': weight,
+      'measurement_id': measurementId,
+      'total_amount': totalAmount,
+      'price': price,
+      'address': address,
+      'photo': photo,
+    };
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductSellOrderResponseVo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/order/product',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ProductSellOrderResponseVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MeasurementResponseVo> getMeasurementData() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MeasurementResponseVo>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/measurements',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = MeasurementResponseVo.fromJson(_result.data!);
     return value;
   }
 

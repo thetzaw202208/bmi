@@ -18,7 +18,9 @@ class LoginDataAgentImpl extends LoginDataAgent {
   }
 
   LoginDataAgentImpl._internal() {
-    final dio = Dio(BaseOptions(headers: <String, String>{
+    final dio = Dio(BaseOptions(
+
+        headers: <String, String>{
       'Content-Type': contentType,
       'Authorization': "Bearer $authorizationToken"
     }));

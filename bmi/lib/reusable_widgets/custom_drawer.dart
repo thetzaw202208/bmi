@@ -1,11 +1,14 @@
 
 
+import 'package:bmi/screen/login/login.dart';
 import 'package:bmi/screen/profie/profile.dart';
 import 'package:bmi/screen/seller_process/select_rice_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../const/color.dart';
+import '../const/string.dart';
 import '../screen/history/history.dart';
 import 'reusable_text.dart';
 
@@ -26,75 +29,92 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     return AdvancedDrawer(
       drawer: SafeArea(
-        child: Container(
-          child: ListTileTheme(
-            textColor: white,
-            iconColor: white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  width: 200.0,
-                  height: 158.0,
-                  padding: const EdgeInsets.only(left: 15),
-                  margin: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 64.0,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    // color: Colors.black26,
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Image.asset(
-                      'assets/images/BMi_LOGO-01.png'
-                  ),
+        child: ListTileTheme(
+          textColor: white,
+          iconColor: white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: 200.0,
+                height: 158.0,
+                padding: const EdgeInsets.only(left: 15),
+                margin: const EdgeInsets.only(
+                  top: 24.0,
+                  bottom: 64.0,
                 ),
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  // color: Colors.black26,
+                  shape: BoxShape.rectangle,
+                ),
+                child: Image.asset(
+                    'assets/images/BMi_LOGO-01.png'
+                ),
+              ),
 
-                ListTile(
-                  onTap: () {
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  const SelectRiceTypeScreen()), (Route<dynamic> route) => false);
+                  advancedDrawerController.hideDrawer();
+                },
+                leading: const Icon(Icons.shopping_cart),
+                title: const ReusableText(reuseText: 'ရောင်းချမည်',fWeight: FontWeight.bold,fColor: white,),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  const ProfileScreen()), (Route<dynamic> route) => true);
+                  advancedDrawerController.hideDrawer();
+                },
+                leading: const Icon(Icons.account_circle_rounded),
+                title: const ReusableText(reuseText: 'ပရိုဖိုင်',fWeight: FontWeight.bold,fColor: white),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  const HistoryScreen()), (Route<dynamic> route) => true);
+                  advancedDrawerController.hideDrawer();
+                },
+                leading: const Icon(Icons.history),
+                title: const ReusableText(reuseText:'ရောင်းချမှုမှတ်တမ်း',fWeight: FontWeight.bold,fColor: white),
+              ),
+              ListTile(
+                onTap: () async{
+                  SharedPreferences sh=await SharedPreferences.getInstance();
+                  sh.setBool("isLogin", false);
+                  if(context.mounted) {
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                    const SelectRiceTypeScreen()), (Route<dynamic> route) => false);
-                    advancedDrawerController.hideDrawer();
-                  },
-                  leading: const Icon(Icons.shopping_cart),
-                  title: const ReusableText(reuseText: 'ရောင်းချမည်',fWeight: FontWeight.bold,fColor: white,),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                    const ProfileScreen()), (Route<dynamic> route) => true);
-                    advancedDrawerController.hideDrawer();
-                  },
-                  leading: const Icon(Icons.account_circle_rounded),
-                  title: const ReusableText(reuseText: 'ပရိုဖိုင်',fWeight: FontWeight.bold,fColor: white),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                    const HistoryScreen()), (Route<dynamic> route) => true);
-                    advancedDrawerController.hideDrawer();
-                  },
-                  leading: const Icon(Icons.history),
-                  title: const ReusableText(reuseText:'ရောင်းချမှုမှတ်တမ်း',fWeight: FontWeight.bold,fColor: white),
-                ),
+                  const LoginScreen()), (Route<dynamic> route) => true);
+                  }
+                  advancedDrawerController.hideDrawer();
+                },
+                leading: const Icon(Icons.logout),
+                title: const ReusableText(reuseText:'အကောင့်မှထွက်မည်',fWeight: FontWeight.bold,fColor: white),
+              ),
 
-                const Spacer(),
-                DefaultTextStyle(
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
+              const Spacer(),
+              DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                ),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 16.0,horizontal: 10
                   ),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 16.0,horizontal: 10
-                    ),
-                    child: const Text('Terms of Service | Privacy Policy'),
+                  child: const Row(
+                    children: [
+                      ReusableText(reuseText:'Current App Version',fColor: black,),
+                      ReusableText(reuseText:'  $version ( $buildNumber )',fColor: black,fSize: 16,fWeight: FontWeight.w600,),
+
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

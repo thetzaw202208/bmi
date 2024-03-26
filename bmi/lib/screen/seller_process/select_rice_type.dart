@@ -1,7 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bmi/provider/select_rice_type_provider.dart';
 import 'package:bmi/screen/home/market_price.dart';
 import 'package:bmi/screen/seller_process/seller_goods_type.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../const/color.dart';
 import '../../const/dimen.dart';
@@ -22,12 +24,7 @@ class SelectRiceTypeScreen extends StatefulWidget {
 
 class _SelectRiceTypeScreenState extends State<SelectRiceTypeScreen> {
 
-  List<Type> type=[
-    Type("assets/images/rice.png", "ဆန်"),
-    Type("assets/images/broken_rice.png", "ဆန်ကွဲ"),
-    Type("assets/images/raw_rice.png", "စပါး"),
-  ];
-  int? selectedIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,103 +47,106 @@ class _SelectRiceTypeScreenState extends State<SelectRiceTypeScreen> {
         ),
 
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 40,
-          ),
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              child: ReusableText(
-                reuseText: "ရောင်းမည့် အမျိုးအစား ရွေးချယ်ပါ",
-                fColor: white,
-                fWeight: FontWeight.bold,
-                fSize: kFontSize16,
-              )),
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GridView.builder(
-                  itemCount: type.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1
-              ), itemBuilder: (context,index)=>GestureDetector(
-
-                  onTap: (){
-                    setState(() {
-                      selectedIndex=index;
-                    });
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 120,
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: selectedIndex == index ? secondary : black.withOpacity(0.1)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 10),
-                          child: Image.asset(
-                            type[index].img
-
-                          ),
-                        ),
-                        ReusableText(
-                          reuseText: type[index].text,
-                          fWeight: FontWeight.bold,
-                          fSize: 14,
-
-                          fColor:selectedIndex == index
-                              ? white:black,
-                        ),
-                      ],
-                    ),
-                  ))),
+      body: Consumer<SelectRiceTypeProvider>(
+        builder: (context,value,child)=>value.isLoading?const Center(child:CircularProgressIndicator() ,): Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 40,
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: ReusableText(
+                  reuseText: "ရောင်းမည့် အမျိုးအစား ရွေးချယ်ပါ",
+                  fColor: white,
+                  fWeight: FontWeight.bold,
+                  fSize: kFontSize16,
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GridView.builder(
+                    itemCount: value.productType?.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1
+                ), itemBuilder: (context,index)=>GestureDetector(
 
-        ],
+                    onTap: (){
+                      value.selectRiceType(index);
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 120,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: value.selectedIndex == index ? secondary : black.withOpacity(0.1)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 10),
+                            child: Image.network(
+                              value.productType?[index].photo?.originalUrl??""
+
+                            ),
+                          ),
+                          ReusableText(
+                            reuseText: value.productType?[index].name,
+                            fWeight: FontWeight.bold,
+                            fSize: 14,
+
+                            fColor:value.selectedIndex == index
+                                ? white:black,
+                          ),
+                        ],
+                      ),
+                    ))),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+
+          ],
+        ),
       ),
-      bottomNavigationBar:  Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ReusableButton(
-          onTap: (){
-            if(selectedIndex!=null){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> SellerGoodsType(type: selectedIndex??0)));
-            }
-            else{
-              if(context.mounted) {
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.error,
-                  animType: AnimType.rightSlide,
-                  title: 'သတိပြုရန်',
-                  desc: 'ကျေးဇူးပြု၍ တစ်ခုရွေးပေးပါ',
-                  // btnCancelOnPress: () {},
-                  btnOkOnPress: () {},
-                ).show();
+      bottomNavigationBar:  Consumer<SelectRiceTypeProvider>(
+        builder: (context,data,child)=> Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: ReusableButton(
+            onTap: (){
+              if(data.selectedIndex!=null){
+                //data.getProductDataByID(data.productType?[data.selectedIndex??1].id??1);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> SellerGoodsType(type: data.selectedIndex??0)));
               }
-            }
+              else{
+                if(context.mounted) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.rightSlide,
+                    title: 'သတိပြုရန်',
+                    desc: 'ကျေးဇူးပြု၍ တစ်ခုရွေးပေးပါ',
+                    // btnCancelOnPress: () {},
+                    btnOkOnPress: () {},
+                  ).show();
+                }
+              }
 
-          },
-          width: MediaQuery.of(context)
-              .size
-              .width,
-          text: "ဆက်သွားမည်",color: primary,textColor: white,),
+            },
+            width: MediaQuery.of(context)
+                .size
+                .width,
+            text: "ဆက်သွားမည်",color: primary,textColor: white,),
+        ),
       ),
     );
   }

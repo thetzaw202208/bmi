@@ -29,14 +29,14 @@ class RegisterProvider extends ChangeNotifier {
       String phoneNumber,
       String password,
       String address,
-      int buyerCategory,
+      int sellerId,
 
       BuildContext context) {
     registerDataAgent
-        .doRegister(name, phoneNumber, password, address, buyerCategory)
+        .doRegister(name, "09$phoneNumber", password, address, sellerId)
         .then((value) {
       print(
-          "request param $name , $phoneNumber $password $address $buyerCategory ${value.data?.password}");
+          "request param $name , $phoneNumber $password $address $sellerId ${value.data?.password}");
       if (value.code == 200) {
         AwesomeDialog(
             dialogType: DialogType.success,

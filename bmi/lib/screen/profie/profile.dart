@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../const/color.dart';
 import '../../../const/dimen.dart';
@@ -15,6 +16,37 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+
+  TextEditingController name=TextEditingController();
+  TextEditingController phone=TextEditingController();
+  TextEditingController address=TextEditingController();
+  TextEditingController buyer=TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  init()async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    name.text = sharedPreferences.getString("name") ?? "";
+    phone.text = sharedPreferences.getString("phone") ?? "";
+    address.text = sharedPreferences.getString("address") ?? "";
+    var buyerType = sharedPreferences.getInt("buyer_id");
+    if(buyerType==1){
+      buyer.text="လက်လီ";
+    }
+    else{
+      buyer.text="လက်ကား";
+    }
+    print("Profile Data $name $phone $address");
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fColor: white,
         ),
       ),
-      body: const Padding(
+      body:  Padding(
         padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,8 +80,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 ReusableText(reuseText: "အမည်",fWeight: FontWeight.bold,fSize: 16,),
                 ReusableTextField(
+                  textEditingController:name,
                   isEnabled: false,
-                  hintText: "သက်ဇော်လတ်",
+                  hintText: "အမည်",
                   keyboardType: TextInputType.number,
                   borderColor: kLoginBorderColor,
                   borderRadius: kLargeBorderRadius,
@@ -63,7 +96,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 ReusableText(reuseText: "ဖုန်းနံပါတ်",fWeight: FontWeight.bold,fSize: 16,),
                 ReusableTextField(isEnabled: false,
-                  hintText: "+959987654321",
+                  textEditingController: phone,
+                  hintText: "ဖုန်းနံပါတ်",
                   keyboardType: TextInputType.number,
                   borderColor: kLoginBorderColor,
                   borderRadius: kLargeBorderRadius,
@@ -77,7 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 ReusableText(reuseText: "လိပ်စာ",fWeight: FontWeight.bold,fSize: 16,),
                 ReusableTextField(isEnabled: false,
-                  hintText: "လှိုင် မြို့နယ်၊ ၁၃ ရပ်ကွက်",
+                  textEditingController: address,
+                  hintText: "လိပ်စာ",
                   keyboardType: TextInputType.number,
                   borderColor: kLoginBorderColor,
                   borderRadius: kLargeBorderRadius,

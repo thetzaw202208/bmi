@@ -1,28 +1,28 @@
 // To parse this JSON data, do
 //
-//     final sellerTypeVo = sellerTypeVoFromJson(jsonString);
+//     final getProductCatResponseVo = getProductCatResponseVoFromJson(jsonString);
 
 import 'dart:convert';
 
-SellerTypeVo sellerTypeVoFromJson(String str) => SellerTypeVo.fromJson(json.decode(str));
+GetProductCatResponseVo getProductCatResponseVoFromJson(String str) => GetProductCatResponseVo.fromJson(json.decode(str));
 
-String sellerTypeVoToJson(SellerTypeVo data) => json.encode(data.toJson());
+String getProductCatResponseVoToJson(GetProductCatResponseVo data) => json.encode(data.toJson());
 
-class SellerTypeVo {
+class GetProductCatResponseVo {
   int? code;
   String? message;
-  List<SellerTypeData>? data;
+  List<ProductCatData>? data;
 
-  SellerTypeVo({
+  GetProductCatResponseVo({
     this.code,
     this.message,
     this.data,
   });
 
-  factory SellerTypeVo.fromJson(Map<String, dynamic> json) => SellerTypeVo(
+  factory GetProductCatResponseVo.fromJson(Map<String, dynamic> json) => GetProductCatResponseVo(
     code: json["code"],
     message: json["message"],
-    data: json["data"] == null ? [] : List<SellerTypeData>.from(json["data"]!.map((x) => SellerTypeData.fromJson(x))),
+    data: json["data"] == null ? [] : List<ProductCatData>.from(json["data"]!.map((x) => ProductCatData.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,18 +32,18 @@ class SellerTypeVo {
   };
 }
 
-class SellerTypeData {
+class ProductCatData {
   int? id;
   String? name;
   Photo? photo;
 
-  SellerTypeData({
+  ProductCatData({
     this.id,
     this.name,
     this.photo,
   });
 
-  factory SellerTypeData.fromJson(Map<String, dynamic> json) => SellerTypeData(
+  factory ProductCatData.fromJson(Map<String, dynamic> json) => ProductCatData(
     id: json["id"],
     name: json["name"],
     photo: json["photo"] == null ? null : Photo.fromJson(json["photo"]),
