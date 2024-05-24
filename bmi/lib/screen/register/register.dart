@@ -3,6 +3,7 @@ import 'package:bmi/const/color.dart';
 import 'package:bmi/const/img.dart';
 import 'package:bmi/provider/register_provider.dart';
 import 'package:bmi/screen/login/login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,66 +94,78 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                ReusableButton(
-                  onTap: () async {
-                    if (value.nameController.text.isNotEmpty &&
-                        value.phoneController.text.isNotEmpty &&
-                        value.passwordController.text.isNotEmpty &&
-                        value.addressController.text.isNotEmpty) {
-                      if (value.passwordController.text.length < 6) {
+                IgnorePointer(
+                  ignoring: value.loading,
+                  child: ReusableButton(
+                    onTap: () async {
+                      if (value.nameController.text.isNotEmpty &&
+                          value.phoneController.text.isNotEmpty &&
+                          value.passwordController.text.isNotEmpty &&
+                          value.addressController.text.isNotEmpty) {
+                        value.enableLoading();
+                        Future.delayed(const Duration(seconds: 1), () {
+                          if (value.passwordController.text.length < 6) {
+                            value.disableLoading();
+                            AwesomeDialog(
+                              btnOkColor: primary,
+                              dialogType: DialogType.warning,
+                              context: context,
+                              btnOkText: "အိုကေ",
+                              desc:
+                                  "လျှို့ဝှက်နံပါတ် အနည်းဆုံး ၆ လုံးရှိရပါမည်",
+                              btnOkOnPress: () {},
+                            ).show();
+                          } else {
+
+                            Future.delayed(const Duration(seconds: 2), () {
+                              value.doRegister(
+                                  value.nameController.text,
+                                  value.phoneController.text,
+                                  value.passwordController.text,
+                                  value.addressController.text,
+                                  sellerID,
+                                  context);
+                            });
+                            if (kDebugMode) {
+                              print("Here is seller type $sellerID");
+                            }
+                          }
+                        });
+                      } else {
                         AwesomeDialog(
+                          btnOkColor: primary,
                           dialogType: DialogType.warning,
                           context: context,
                           btnOkText: "အိုကေ",
-                          desc: "လျှို့ဝှက်နံပါတ် အနည်းဆုံး ၆ လုံးရှိရပါမည်",
+                          desc: "အချက်အလက်များ ပြည့်စုံစွာဖြည့်သွင်းပါ",
                           btnOkOnPress: () {},
                         ).show();
-                      } else {
-                        value.enableLoading();
-                        value.doRegister(
-                            value.nameController.text,
-                            value.phoneController.text,
-                            value.passwordController.text,
-                            value.addressController.text,
-                            sellerID,
-                            context);
-                        if (kDebugMode) {
-                          print("Here is seller type $sellerID");
-                        }
                       }
-                    } else {
-                      AwesomeDialog(
-                        dialogType: DialogType.warning,
-                        context: context,
-                        btnOkText: "အိုကေ",
-                        desc: "အချက်အလက်များ ပြည့်စုံစွာဖြည့်သွင်းပါ",
-                        btnOkOnPress: () {},
-                      ).show();
-                    }
 
-                    // if(context.mounted) {
-                    //
-                    //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
-                    //
-                    // }
-                  },
-                  widget: value.loading
-                      ? const Center(
-                    child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: white,
-                        )),
-                  )
-                      : const ReusableText(
-                    reuseText: "အကောင့်လုပ်မည်",
-                    fColor: white,
+                      // if(context.mounted) {
+                      //
+                      //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+                      //
+                      // }
+                    },
+                    widget: value.loading
+                        ? const Center(
+                            child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: white,
+                                )),
+                          )
+                        : const ReusableText(
+                            reuseText: "အကောင့်လုပ်မည်",
+                            fColor: white,
+                          ),
+                    width: MediaQuery.of(context).size.width,
+                    text: "",
+                    color: value.loading ? primary.withOpacity(0.5) : primary,
+                    textColor: white,
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  text: "",
-                  color: primary,
-                  textColor: white,
                 ),
                 const SizedBox(
                   height: 30,

@@ -39,6 +39,7 @@ class LoginResponseData {
   String? address;
   String? phoneNo;
   int? sellerID;
+  String? sellerName;
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic deletedAt;
@@ -50,6 +51,7 @@ class LoginResponseData {
     this.address,
     this.phoneNo,
     this.sellerID,
+    this.sellerName,
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
@@ -62,6 +64,7 @@ class LoginResponseData {
     address: json["address"],
     phoneNo: json["phone_no"],
     sellerID: json["seller_type_id"],
+    sellerName: json["seller_type_name"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
@@ -74,6 +77,7 @@ class LoginResponseData {
     "address": address,
     "phone_no": phoneNo,
     "seller_type_id": sellerID,
+    "seller_type_name":sellerName,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt,

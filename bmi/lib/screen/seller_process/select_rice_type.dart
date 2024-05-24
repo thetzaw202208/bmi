@@ -1,7 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bmi/provider/select_rice_type_provider.dart';
-import 'package:bmi/screen/home/market_price.dart';
+import 'package:bmi/screen/home/daily_prices.dart';
 import 'package:bmi/screen/seller_process/seller_goods_type.dart';
+import 'package:bmi/screen/seller_process/selling_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,13 +54,35 @@ class _SelectRiceTypeScreenState extends State<SelectRiceTypeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 40,
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: value.onLoading,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ReusableText(
+                    reuseText: "အချက်အလက် အသစ်ရယူနိုင်ရန်် နှိပ်ပါ  ",
+                    fSize: 14,
+                    fColor: Colors.blue,
+                    fWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
+                  ),
+                  Icon(
+                    Icons.refresh,
+                    color: Colors.blue,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: ReusableText(
                   reuseText: "ရောင်းမည့် အမျိုးအစား ရွေးချယ်ပါ",
-                  fColor: white,
+                  //fColor: white,
                   fWeight: FontWeight.bold,
                   fSize: kFontSize16,
                 )),
@@ -87,7 +110,7 @@ class _SelectRiceTypeScreenState extends State<SelectRiceTypeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: value.selectedIndex == index ? secondary : black.withOpacity(0.1)),
+                          color: value.selectedIndex == index ? blueWithOpacity : black.withOpacity(0.1)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -123,13 +146,26 @@ class _SelectRiceTypeScreenState extends State<SelectRiceTypeScreen> {
           padding: const EdgeInsets.all(10.0),
           child: ReusableButton(
             onTap: (){
+
               if(data.selectedIndex!=null){
+                if((data.productTypeByID?.products!.length)!>0){
+                  data.unselectedRiceType();
+                  print("Here is select ID ${data.productID}");
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> SellerGoodsType(type: data.productID??1)));
+                }else{
+                  data.unselectedRiceType();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen(productTypeData: data.productTypeByID,
+                      catID: data.productID??1,
+                      productID: null,
+                      productName: "အခြား")));
+                }
                 //data.getProductDataByID(data.productType?[data.selectedIndex??1].id??1);
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> SellerGoodsType(type: data.selectedIndex??0)));
+
               }
               else{
                 if(context.mounted) {
                   AwesomeDialog(
+                    btnOkColor: primary,
                     context: context,
                     dialogType: DialogType.error,
                     animType: AnimType.rightSlide,

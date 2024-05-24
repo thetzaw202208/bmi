@@ -20,6 +20,7 @@ class ProductSellOrderRequestVo {
   int? totalAmount;
   int? price;
   String? address;
+  String? phoneNumber;
   String? photo;
 
   ProductSellOrderRequestVo({
@@ -34,6 +35,7 @@ class ProductSellOrderRequestVo {
     this.totalAmount,
     this.price,
     this.address,
+    this.phoneNumber,
     this.photo,
   });
 
@@ -49,6 +51,7 @@ class ProductSellOrderRequestVo {
     totalAmount: json["total_amount"],
     price: json["price"],
     address: json["address"],
+    phoneNumber: json["phone_no"],
     photo: json["photo"],
   );
 
@@ -64,6 +67,7 @@ class ProductSellOrderRequestVo {
     "total_amount": totalAmount,
     "price": price,
     "address": address,
+    "phone_no": phoneNumber,
     "photo": photo,
   };
 }

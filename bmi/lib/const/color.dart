@@ -4,7 +4,7 @@ const Color primary=Color.fromRGBO(54, 96, 180, 1.0);
 const Color secondary=Color.fromRGBO(196, 32, 36, 1.0);
 const Color black=Color.fromRGBO(0, 0, 0, 1);
 const Color white=Color.fromRGBO(255, 255, 255, 1);
-
+ Color blueWithOpacity=Colors.blue.withOpacity(0.5);
 const Color kPrimaryColor = Colors.white;
 const Color kDimWhiteColor = Color(0xfff6f6f6);
 const Color cameraBottomColor=Color.fromARGB(255, 216, 216, 216);

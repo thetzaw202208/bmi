@@ -3,6 +3,7 @@ import 'package:bmi/const/img.dart';
 import 'package:bmi/provider/login_provider.dart';
 import 'package:bmi/screen/register/select_seller_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../const/dimen.dart';
@@ -68,40 +69,46 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: kLargeBorderRadius,
                   prefixIcon: const Opacity(opacity: 0.5, child: Icon(Icons.lock)),
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Align(
-                    alignment: Alignment.bottomRight,
-                    child: Opacity(
-                        opacity: 0.6,
-                        child:
-                            ReusableText(reuseText: "လျှို့ဝှက်နံပါတ်မေ့နေသလား?"))),
+                // const SizedBox(
+                //   height: 5,
+                // ),
+                // const Align(
+                //     alignment: Alignment.bottomRight,
+                //     child: Opacity(
+                //         opacity: 0.6,
+                //         child:
+                //             ReusableText(reuseText: "လျှို့ဝှက်နံပါတ်မေ့နေသလား?"))),
                 const SizedBox(
                   height: 30,
                 ),
-                ReusableButton(
-                  onTap: () async {
-                    value.enableLoading();
-                   value.doLogin(value.phoneController.text, value.passwordController.text, context);
-                  },
-                  width: MediaQuery.of(context).size.width,
-                  widget: value.loading
-                      ? const Center(
-                    child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: white,
-                        )),
-                  )
-                      : const ReusableText(
-                    reuseText: "အကောင့်ဝင်မည်",
-                    fColor: white,
+                IgnorePointer(
+                  ignoring: value.loading,
+                  child: ReusableButton(
+                    onTap: () async {
+                      value.enableLoading();
+                      Future.delayed(const Duration(seconds: 2),(){
+                        value.doLogin(value.phoneController.text, value.passwordController.text, context);
+                      });
+
+                    },
+                    width: MediaQuery.of(context).size.width,
+                    widget: value.loading
+                        ? const Center(
+                      child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: white,
+                          )),
+                    )
+                        : const ReusableText(
+                      reuseText: "အကောင့်ဝင်မည်",
+                      fColor: white,
+                    ),
+                    text: "",
+                    color:value.loading?primary.withOpacity(0.5): primary,
+                    textColor: white,
                   ),
-                  text: "",
-                  color: primary,
-                  textColor: white,
                 ),
                 const SizedBox(
                   height: 30,

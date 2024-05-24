@@ -74,7 +74,7 @@ class _SellerTypeScreenState extends State<SellerTypeScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
                                         color: value.selectedIndex == index
-                                            ? secondary
+                                            ? blueWithOpacity
                                             : black.withOpacity(0.1)),
                                     child: Column(
                                       mainAxisAlignment:

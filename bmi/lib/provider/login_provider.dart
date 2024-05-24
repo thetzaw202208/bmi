@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:bmi/data/network/response_vo/login_response_vo.dart';
-import 'package:bmi/screen/home/market_price.dart';
+import 'package:bmi/screen/home/daily_prices.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../const/color.dart';
 import '../data/network/data_agent/login/login_data_agent.dart';
 import '../data/network/data_agent/login/login_data_agent_impl.dart';
 
@@ -16,7 +16,7 @@ class LoginProvider extends ChangeNotifier {
   bool loading = false;
   int? buyerID;
   int? buyerType;
-  String? phone, address, name;
+  String? phone, address, name,sellerTypeName;
 
   enableLoading() {
     loading = true;
@@ -36,7 +36,9 @@ class LoginProvider extends ChangeNotifier {
       if (value.code == 200) {
         buyerID = value.data?.id;
         name = value.data?.name;
+        sellerTypeName=value.data?.sellerName;
         sharedPreferences.setInt("seller_type", value.data?.sellerID ?? 1);
+        sharedPreferences.setString("seller_type_name", value.data?.sellerName ?? "");
         sharedPreferences.setInt("seller_id", buyerID ?? 1);
         sharedPreferences.setBool("isLogin", true);
         sharedPreferences.setString("name", name ?? "");
@@ -50,9 +52,10 @@ class LoginProvider extends ChangeNotifier {
       } else if (value.code == 422) {
         disableLoading();
         AwesomeDialog(
+          btnOkColor: primary,
           dialogType: DialogType.error,
           context: context,
-          desc: "အကောင့်အချက်အလက် မှားယွင်းနေပါသည်",
+          desc: value.message,
           btnOkOnPress: () {},
         ).show();
       }

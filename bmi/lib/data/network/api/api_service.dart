@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:bmi/data/network/request_vo/product_order_request_vo.dart';
+import 'package:bmi/data/network/response_vo/daily_prices_response_vo.dart';
 import 'package:bmi/data/network/response_vo/get_product_cat_response_vo.dart';
 import 'package:bmi/data/network/response_vo/get_product_response_vo.dart';
 import 'package:bmi/data/network/response_vo/measurement_response_vo.dart';
+import 'package:bmi/data/network/response_vo/order_history_response_vo.dart';
 import 'package:bmi/data/network/response_vo/product_selling_order_response_vo.dart';
 import 'package:bmi/data/network/response_vo/seller_type_response_vo.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -55,18 +59,24 @@ abstract class ApiService {
   ///Order
   @POST(sellOrderEndpoint)
   Future<ProductSellOrderResponseVo> sellProductOrder(
-      @Field("product_category_id") int productCatID,
-      @Field("seller_product_type_id") String sellerProductTypeID,
+      @Field("seller_id") int sellerID,
+      @Field("product_category_id") int? productCatID,
+      @Field("seller_product_type_id") int? sellerProductTypeID,
       @Field("product_type_name") String productName,
       @Field("order_date") String orderDate,
-      @Field("rice_percentage_one") int ricePercentOne,
-      @Field("rice_percentage_two") int ricePercentTwo,
+      @Field("rice_percentage_one") int? ricePercentOne,
+      @Field("rice_percentage_two") int? ricePercentTwo,
+      @Field("moisture") int? moisture,
       @Field("weight") String weight,
-      @Field("measurement_id") int measurementId,
+      @Field("measurement_id") int? measurementId,
       @Field("total_amount") int totalAmount,
       @Field("price") int price,
       @Field("address") String address,
-      @Field("photo") String photo,
+      @Field("category_prices_id") int? categoryID,
+      @Field("export_or_local") int? exportOrLocal,
+      @Field("remark") String? remark,
+      @Field("phone_no") String phoneNo,
+      @Field("photo") List<String> photo,
       );
 
 
@@ -75,4 +85,15 @@ abstract class ApiService {
   @GET(getMeasurementEndpoint)
   Future<MeasurementResponseVo> getMeasurementData();
 
+///Order History
+  @POST(orderHistoryEndpoint)
+  Future<OrderHistoryResponseVo> orderHistory(
+      @Field("seller_id") int sellerID
+      );
+
+  ///Daily Prices
+  @POST(dailyPricesEndpoint)
+  Future<DailyPricesResponseVo> dailyPrices(
+      @Field("today_date") String date
+      );
 }

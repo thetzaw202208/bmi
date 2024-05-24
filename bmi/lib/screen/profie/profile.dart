@@ -21,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController name=TextEditingController();
   TextEditingController phone=TextEditingController();
   TextEditingController address=TextEditingController();
+  TextEditingController sellerTypeName=TextEditingController();
   TextEditingController buyer=TextEditingController();
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     name.text = sharedPreferences.getString("name") ?? "";
     phone.text = sharedPreferences.getString("phone") ?? "";
     address.text = sharedPreferences.getString("address") ?? "";
+    sellerTypeName.text = sharedPreferences.getString("seller_type_name") ?? "";
     var buyerType = sharedPreferences.getInt("buyer_id");
     if(buyerType==1){
       buyer.text="လက်လီ";
@@ -99,6 +101,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   textEditingController: phone,
                   hintText: "ဖုန်းနံပါတ်",
                   keyboardType: TextInputType.number,
+                  borderColor: kLoginBorderColor,
+                  borderRadius: kLargeBorderRadius,
+
+                ),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Column(crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ReusableText(reuseText: "Type",fWeight: FontWeight.bold,fSize: 16,),
+                ReusableTextField(isEnabled: false,
+                  textEditingController: sellerTypeName,
+                  hintText: "",
+
                   borderColor: kLoginBorderColor,
                   borderRadius: kLargeBorderRadius,
 

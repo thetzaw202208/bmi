@@ -11,6 +11,8 @@ const String getProductTypeEndpoint = "sellers/product/type";
 const String getProductCatEndpoint = "sellers/product/categories";
 const String sellOrderEndpoint = "sellers/order/product";
 const String getMeasurementEndpoint = "sellers/measurements";
+const String orderHistoryEndpoint = "sellers/order/history";
+const String dailyPricesEndpoint = "sellers/todayPrices";
 
 ///Authorization token
 String authorizationToken =dotenv.get("API_TOKEN", fallback: null);

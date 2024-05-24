@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bmi/const/color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,8 @@ class RegisterProvider extends ChangeNotifier {
         AwesomeDialog(
             dialogType: DialogType.success,
             context: context,
-            desc: "အကောင့်ဖွင့်ခြင်းအောင်မြင်ပါသည်",
+            desc: value.message,
+            btnOkColor: primary,
             btnOkOnPress: () {
               Navigator.push(
                   context,
@@ -54,9 +56,10 @@ class RegisterProvider extends ChangeNotifier {
       } else if (value.code == 400) {
         disableLoading();
         AwesomeDialog(
+          btnOkColor: primary,
           dialogType: DialogType.error,
           context: context,
-          title: value.message,
+          desc: value.message,
           btnOkOnPress: () {},
         ).show();
       }

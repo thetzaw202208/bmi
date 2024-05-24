@@ -173,36 +173,50 @@ class _ApiService implements ApiService {
 
   @override
   Future<ProductSellOrderResponseVo> sellProductOrder(
-    int productCatID,
-    String sellerProductTypeID,
+    int sellerID,
+    int? productCatID,
+    int? sellerProductTypeID,
     String productName,
     String orderDate,
-    int ricePercentOne,
-    int ricePercentTwo,
+    int? ricePercentOne,
+    int? ricePercentTwo,
+    int? moisture,
     String weight,
-    int measurementId,
+    int? measurementId,
     int totalAmount,
     int price,
     String address,
-    String photo,
+    int? categoryID,
+    int? exportOrLocal,
+    String? remark,
+    String phoneNo,
+    List<String> photo,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
+      'seller_id': sellerID,
       'product_category_id': productCatID,
       'seller_product_type_id': sellerProductTypeID,
       'product_type_name': productName,
       'order_date': orderDate,
       'rice_percentage_one': ricePercentOne,
       'rice_percentage_two': ricePercentTwo,
+      'moisture': moisture,
       'weight': weight,
       'measurement_id': measurementId,
       'total_amount': totalAmount,
       'price': price,
       'address': address,
+      'category_prices_id': categoryID,
+      'export_or_local': exportOrLocal,
+      'remark': remark,
+      'phone_no': phoneNo,
       'photo': photo,
     };
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ProductSellOrderResponseVo>(Options(
       method: 'POST',
@@ -248,6 +262,60 @@ class _ApiService implements ApiService {
               baseUrl,
             ))));
     final value = MeasurementResponseVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OrderHistoryResponseVo> orderHistory(int sellerID) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'seller_id': sellerID};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OrderHistoryResponseVo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/order/history',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OrderHistoryResponseVo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DailyPricesResponseVo> dailyPrices(String date) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'today_date': date};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DailyPricesResponseVo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'sellers/todayPrices',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DailyPricesResponseVo.fromJson(_result.data!);
     return value;
   }
 

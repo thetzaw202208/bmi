@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bmi/const/img.dart';
-import 'package:bmi/screen/home/market_price.dart';
+import 'package:bmi/screen/home/daily_prices.dart';
 import 'package:bmi/screen/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

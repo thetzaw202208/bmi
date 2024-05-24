@@ -10,3 +10,5 @@ const String traderSaparImg="assets/images/5.png";
 const String storeImg="assets/images/3.png";
 const String millOwnerImg="assets/images/6.png";
 const String successImg="assets/images/imagesSuccess.png";
+const String orderDeliverImg="assets/images/order_delivering.png";
+const String pendingImg="assets/images/pending.png";

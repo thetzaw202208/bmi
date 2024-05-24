@@ -15,7 +15,7 @@ class SelectRiceTypeProvider extends ChangeNotifier {
 
   int? selectedProductType;
   List<ProductCatData>? productType;
-  List<ProductData>? productTypeByID;
+  ProductTypeData? productTypeByID;
   GetProductCategoryDataAgent getProductCategoryDataAgent =
       GetProductCategoryDataAgentImpl();
   GetProductTypeDataAgent getProductTypeDataAgent =
@@ -33,7 +33,10 @@ class SelectRiceTypeProvider extends ChangeNotifier {
     errorText = "";
     notifyListeners();
   }
-
+unselectedRiceType(){
+    selectedIndex=null;
+    notifyListeners();
+}
   selectProductType(index) {
     selectedProductType = index;
     notifyListeners();
@@ -48,12 +51,22 @@ class SelectRiceTypeProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+  onLoading() {
+    enableLoading();
+    print("Refresh work");
 
+    Future.delayed(const Duration(seconds: 2), () {
+      getProductType();
+      notifyListeners();
+      disableLoading();
+    });
+  }
   getProductType() {
     getProductCategoryDataAgent.getProductCategory().then((value) {
       if (value.code == 200) {
         disableLoading();
         productType = value.data;
+        print("Get product success");
         notifyListeners();
       } else if (value.code == 400) {
         disableLoading();
@@ -71,7 +84,7 @@ class SelectRiceTypeProvider extends ChangeNotifier {
       if (value.code == 200) {
         disableLoading();
         productTypeByID = value.data;
-        print("Here is product list ${productTypeByID?[0].name}");
+       // print("Here is product list ${productTypeByID?.products?[0].name}");
         notifyListeners();
       } else if (value.code == 400) {
         disableLoading();

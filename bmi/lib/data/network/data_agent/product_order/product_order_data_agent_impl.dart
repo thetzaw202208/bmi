@@ -27,30 +27,42 @@ class ProductOrderDataAgentImpl extends ProductOrderDataAgent {
 
   @override
   Future<ProductSellOrderResponseVo> productOrder(
-      int productCatID,
-      String sellerProductTypeID,
+      int sellerID,
+      int? productCatID,
+      int? sellerProductTypeID,
       String productName,
       String orderDate,
-      int ricePercentOne,
-      int ricePercentTwo,
+      int? ricePercentOne,
+      int? ricePercentTwo,
+      int? moisture,
       String weight,
-      int measurementId,
+      int? measurementId,
       int totalAmount,
       int price,
       String address,
-      String photo) {
+      int? categoryID,
+      int? exportOrLocal,
+      String? remark,
+      String phoneNo,
+      List<String> photo) {
     return _api.sellProductOrder(
+        sellerID,
         productCatID,
         sellerProductTypeID,
         productName,
         orderDate,
         ricePercentOne,
         ricePercentTwo,
+        moisture,
         weight,
         measurementId,
         totalAmount,
         price,
         address,
+        categoryID,
+        exportOrLocal,
+        remark,
+        phoneNo,
         photo);
   }
 }
